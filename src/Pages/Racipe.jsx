@@ -40,7 +40,7 @@ const Recipe = ({ recipe, setRecipe, fetchRecipes }) => {
 
     try {
       if (recipe) {
-        await axios.put(`mongodb+srv://aishwarya:ufucNzS5ACyfr1Nt@recipe.yrvek.mongodb.net/?retryWrites=true&w=majority&appName=recipe/api/updateRecipe/${recipe._id}`, {
+        await axios.put(`https://recipe-backend-taupe.vercel.app/api/updateRecipe/${recipe._id}`, {
           name,
           description,
           ingredients: ingredientsArray,
@@ -49,7 +49,7 @@ const Recipe = ({ recipe, setRecipe, fetchRecipes }) => {
         toast.success('Recipe updated successfully!');
         reset();
       } else {
-        await axios.post('mongodb+srv://aishwarya:ufucNzS5ACyfr1Nt@recipe.yrvek.mongodb.net/?retryWrites=true&w=majority&appName=recipe/api/addRecipe', {
+        await axios.post('https://recipe-backend-taupe.vercel.app/api/addRecipe', {
           name,
           description,
           ingredients: ingredientsArray,

@@ -8,7 +8,7 @@ const Table = ({ recipes, setRecipe, fetchRecipes }) => {
   const { reset} = useForm()
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`mongodb+srv://aishwarya:ufucNzS5ACyfr1Nt@recipe.yrvek.mongodb.net/?retryWrites=true&w=majority&appName=recipe/api/deleteRecipe/${id}`);
+      await axios.delete(`https://recipe-backend-taupe.vercel.app/api/deleteRecipe/${id}`);
       fetchRecipes(); 
      toast.success('Recipe  deleted successfully!');
       reset()

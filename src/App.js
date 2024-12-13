@@ -14,7 +14,7 @@ const App=()=> {
 
   const fetchRecipes = async () => {
     try {
-      const response = await axios.get('mongodb+srv://aishwarya:ufucNzS5ACyfr1Nt@recipe.yrvek.mongodb.net/?retryWrites=true&w=majority&appName=recipe/api/getRecipes');
+      const response = await axios.get('https://recipe-backend-taupe.vercel.app/api/getRecipes');
       setRecipes(response.data.message);
     } catch (error) {
       console.error('Error', error);

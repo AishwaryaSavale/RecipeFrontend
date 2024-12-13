@@ -10,7 +10,7 @@ const Search = ({ setRecipes }) => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`mongodb+srv://aishwarya:ufucNzS5ACyfr1Nt@recipe.yrvek.mongodb.net/?retryWrites=true&w=majority&appName=recipe/api/search?query=${query}`);
+      const response = await axios.get(`https://recipe-backend-taupe.vercel.app/api/search?query=${query}`);
       setRecipes(response.data.message);
       toast.success('Search Successful !!');
       reset()
