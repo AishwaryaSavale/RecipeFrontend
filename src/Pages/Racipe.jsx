@@ -6,7 +6,8 @@ import { useForm } from 'react-hook-form';
 
 const Recipe = ({ recipe, setRecipe, fetchRecipes }) => {
 
-  const { reset } = useForm();
+  
+  const { reset, setValue } = useForm();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -22,8 +23,14 @@ const Recipe = ({ recipe, setRecipe, fetchRecipes }) => {
         ingredients: recipe.ingredients.join(', '),
         instructions: recipe.instructions,
       });
+
+      
+      setValue('name', recipe.name);
+      setValue('description', recipe.description);
+      setValue('ingredients', recipe.ingredients.join(', '));
+      setValue('instructions', recipe.instructions);
     }
-  }, [recipe]);
+  }, [recipe, setValue]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +47,7 @@ const Recipe = ({ recipe, setRecipe, fetchRecipes }) => {
 
     try {
       if (recipe) {
+  
         await axios.put(`https://recipe-backend-taupe.vercel.app/api/updateRecipe/${recipe._id}`, {
           name,
           description,
@@ -47,8 +55,8 @@ const Recipe = ({ recipe, setRecipe, fetchRecipes }) => {
           instructions,
         });
         toast.success('Recipe updated successfully!');
-        reset();
       } else {
+       
         await axios.post('https://recipe-backend-taupe.vercel.app/api/addRecipe', {
           name,
           description,
@@ -56,13 +64,18 @@ const Recipe = ({ recipe, setRecipe, fetchRecipes }) => {
           instructions,
         });
         toast.success('Recipe added successfully!');
-        reset();
       }
 
       fetchRecipes();
+    
+      setFormData({
+        name: '',
+        description: '',
+        ingredients: '',
+        instructions: '',
+      });
       setRecipe(null);
-      reset();
-
+      reset(); 
     } catch (error) {
       console.error('Error', error);
       toast.error('Something went wrong. Please try again.');
@@ -71,42 +84,43 @@ const Recipe = ({ recipe, setRecipe, fetchRecipes }) => {
 
   return (
     <>
-    <form onSubmit={handleSubmit}>
-    <div className="title">
-      <h2>Add Recipe</h2>
-    </div>
-      <input
-        type="text"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        placeholder="Name"
-        required
-      />
-      <input
-        type="text"
-        name="description"
-        value={formData.description}
-        onChange={handleChange}
-        placeholder="Description"
-        required
-      />
-      <input
-        type="text"
-        name="ingredients"
-        value={formData.ingredients}
-        onChange={handleChange}
-        placeholder="Ingredients"
-        required
-      />
-      <textarea name="instructions" 
-        value={formData.instructions}
-        onChange={handleChange}
-        placeholder="Instructions"
-        required
-      />
-      <button type="submit">{recipe ? 'Update Recipe' : 'Add Recipe'}</button>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <div className="title">
+          <h2>{recipe ? 'Update Recipe' : 'Add Recipe'}</h2>
+        </div>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Name"
+          required
+        />
+        <input
+          type="text"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Description"
+          required
+        />
+        <input
+          type="text"
+          name="ingredients"
+          value={formData.ingredients}
+          onChange={handleChange}
+          placeholder="Ingredients"
+          required
+        />
+        <textarea
+          name="instructions"
+          value={formData.instructions}
+          onChange={handleChange}
+          placeholder="Instructions"
+          required
+        />
+        <button type="submit">{recipe ? 'Update Recipe' : 'Add Recipe'}</button>
+      </form>
     </>
   );
 };
